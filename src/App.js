@@ -1,24 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import { Route, Routes } from "react-router-dom";
+import 'react-toastify/dist/ReactToastify.css';
+import AuthProvider from "./context/AuthProvider";
+import EmployeeDetails from "./pages/Employees/EmployeeDetails";
+import Employees from "./pages/Employees/Employees";
+import Home from "./pages/Home/Home";
+import Login from "./pages/Login/Login";
+import Register from "./pages/Register/Register";
+import ServiceDetails from "./pages/Services/ServiceDetails";
+import Service from "./pages/Services/Services";
+import PrivateOutlet from "./components/PrivateOutlet";
+import Dashboard from "./pages/Dashboard/Dashboard";
+import Admin from "./pages/Admin/Admin";
+import Employee from "./pages/Employee/Employee";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <AuthProvider>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/services" element={<Service />} />
+        <Route path="/service-details/:id" element={<ServiceDetails />} />
+        <Route path="/employees" element={<Employees />} />
+        <Route path="/employee-details/:id" element={<EmployeeDetails />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+
+        <Route path="/" element={<PrivateOutlet/>}>
+          <Route path="/dashboard" element={<Dashboard/>}/>
+          <Route path="/admin" element={<Admin/>}/>
+          <Route path="/employee" element={<Employee/>}/>
+        </Route>
+      </Routes>
+    </AuthProvider>
   );
 }
 
