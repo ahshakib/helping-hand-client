@@ -1,8 +1,10 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
 
 const EmployeeCard = ({ employee }) => {
     const navigate = useNavigate();
+    const {setEmployee} = useAuth()
     return (
         <div className="bg-gradient-to-br from-teal-400 via-cyan-500 to-blue-500 rounded-2xl shadow-2xl transition-all duration-300 hover:shadow-3xl hover:scale-105 p-6 overflow-hidden relative">
             <div className="absolute top-0 right-0 w-32 h-32 bg-yellow-300 rounded-full filter blur-3xl opacity-50 -mr-16 -mt-16"></div>
@@ -54,7 +56,10 @@ const EmployeeCard = ({ employee }) => {
                     <span className="text-white opacity-80 ml-1">(120 reviews)</span>
                 </div>
                 <button 
-                    onClick={() => navigate(`/employee-details/${employee._id}`)} 
+                    onClick={() => {
+                        setEmployee(employee);
+                        navigate(`/employee-details/${employee._id}`);
+                    }} 
                     className="bg-white text-cyan-700 hover:bg-yellow-300 hover:text-blue-700 rounded-full text-sm py-3 px-6 transition duration-300 ease-in-out transform hover:scale-105 shadow-lg hover:shadow-xl font-bold">
                     View Profile
                 </button>

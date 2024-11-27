@@ -5,8 +5,8 @@ const EmployeeAbout = ({ employee }) => {
   const { slots, services } = useAuth()
 
 
-  const categories = [...new Set(employee.services.map(serviceName => services.find(service => service.name === serviceName).category))]
-  
+  const categories = employee.services.map(serviceName => (services.find(service => service.name === serviceName) || {}).category) || "No category";
+  const uniqueCategories = [...new Set(categories)];
 
   const timeFormatter = (time) => {
     const [hours, minutes] = time.split(":");
@@ -50,7 +50,9 @@ const EmployeeAbout = ({ employee }) => {
               <h2 className="text-xl font-semibold">Service Slots</h2>
 
               <div className="divide-y divide-slate-400 mt-5">
-                {slots.map((slot) => (
+                {
+                  slots.length > 0 &&
+                slots.map((slot) => (
                   <div
                     key={slot._id}
                     className="grid grid-cols-2 items-center py-2"
@@ -74,7 +76,8 @@ const EmployeeAbout = ({ employee }) => {
             <h3 className="text-xl font-bold">Categories</h3>
             <div className="mt-5 flex flex-wrap gap-2">
               {
-                categories.map(category => (
+                uniqueCategories.length > 0 &&
+                uniqueCategories.map(category => (
                   <p key={category} className="text-sm p-2 rounded-full border border-gray-400">{category}</p>
                 ))
               }
@@ -84,6 +87,7 @@ const EmployeeAbout = ({ employee }) => {
             <h3 className="text-xl font-bold">Services</h3>
             <div className="mt-5 flex flex-wrap gap-2">
               {
+                employee.services.length > 0 &&
                 employee.services.map(service => (
                   <p key={service} className="text-sm p-2 rounded-full border border-gray-400">{service}</p>
                 ))

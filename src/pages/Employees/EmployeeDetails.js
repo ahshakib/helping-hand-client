@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Navbar from "../../components/Navbar";
 import EmployeeAbout from "../../components/Employees/EmployeeAbout";
@@ -9,9 +9,26 @@ const EmployeeDetails = () => {
   const [toggle, setToggle] = useState(false)
   const [tab, setTab] = useState("About")
   const { id } = useParams();
-  const { employees } = useAuth()
+  const { employee, setEmployee } = useAuth()
 
-  const employee = employees.find((employee) => employee._id === id);
+  useEffect(() => {
+    if(!employee.name) {
+      const fetchData = async() => {
+        try {
+          const response = await fetch(`http://localhost:5000/employee/${id}`);
+          const result = await response.json();
+          if(result.status) {
+            setEmployee(result.employee);
+          } else {
+            setEmployee({});
+          }
+        } catch (error) {
+          fetchData();
+        }
+      }
+      fetchData();
+    }
+  }, [employee.name, id, setEmployee])
 
   const handleTabChange = (tabName) => {
     if (tab !== tabName) {
@@ -35,7 +52,7 @@ const EmployeeDetails = () => {
             <h2 className="text-xl font-bold">{employee.name}</h2>
             <h3 className="text-sm text-gray-600">{employee.bio}</h3>
             <h4 className="text-sm text-gray-800">
-              ৳{Number(employee.rate).toLocaleString()}
+              ৳{Number(employee.rate || 0).toLocaleString()}
             </h4>
           </div>
         </div>
@@ -46,10 +63,10 @@ const EmployeeDetails = () => {
         
       </div>
       {
-          tab === "About" && <EmployeeAbout employee={employee} />
+          employee.name && tab === "About" && <EmployeeAbout employee={employee} />
         }
         {
-          tab === "Review" && <EmployeeReview />
+          employee.name && tab === "Review" && <EmployeeReview />
         }
     </div>
   );

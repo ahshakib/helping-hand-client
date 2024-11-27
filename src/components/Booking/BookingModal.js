@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import useAuth from "../../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
 function BookingModal({ isOpen, onClose, children }) {
-  const { slots } = useAuth();
+  const { slots, user, service, employee, slot, setSlot } = useAuth();
   const [bookingError, setBookingError] = useState("");
+  const navigate = useNavigate();
 
   const timeFormatter = (time) => {
     const [hours, minutes] = time.split(":");
@@ -11,24 +13,47 @@ function BookingModal({ isOpen, onClose, children }) {
       ? `${hours}:${minutes} AM`
       : `${hours % 12 || 12}:${minutes} PM`;
   };
+
+  const bookNow = () => {
+    if(!user.email) {
+      navigate('/login')
+    } else {
+      if(slot.label) {
+        const btn = document.getElementById('pay-btn');
+        btn.innerText = "Processing Payment...";
+        btn.disabled = true;
+
+        const formData = {
+          date: new Date().toISOString().split("T")[0],
+          email: user.email,
+          name: user.name,
+          service,
+          employee,
+          slot,
+          status: "pending"
+        }
+
+        console.log(formData)
+      }
+    }
+  }
   return (
     <div
       className={`fixed inset-0 z-50 items-center justify-center overflow-x-hidden overflow-y-auto transition-opacity duration-300 ease-in-out
     ${isOpen ? "flex" : "hidden"}`}
     >
-      <div className="absolute inset-0 bg-black opacity-50"></div>
+      <div className="absolute inset-0 bg-black opacity-50" onClick={onClose}></div>
       <div className="relative bg-white rounded-lg w-96">
         {children}
         <div className="p-4 md:p-5">
           <p className="text-gray-500">Select your desired slot:</p>
           <p className="text-rose-500 text-sm">{bookingError}</p>
-          {
-            <ul className="space-y-4 mb-4 max-h-80 overflow-auto p-2">
+            <ul className="space-y-4 my-4 max-h-80 overflow-auto p-2">
               {slots.length > 0 &&
                 slots.map((slot) => (
                   <li key={slot._id}>
                     <input
-                      onChangeCapture={() => {}}
+                      onChangeCapture={() => {setSlot(slot)}}
                       type="radio"
                       id={`slot-${slot._id}`}
                       name="slot"
@@ -56,7 +81,8 @@ function BookingModal({ isOpen, onClose, children }) {
                   </li>
                 ))}
             </ul>
-          }
+            <button id="pay-btn" onClick={bookNow}
+            className="text-white inline-flex w-full justify-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Pay Now</button>
         </div>
       </div>
     </div>

@@ -1,16 +1,21 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import BookingModal from "../Booking/BookingModal";
+import useAuth from "../../hooks/useAuth";
 
 const EmployeeMiniCard = ({ employee }) => {
+  const { setEmployee, setSlot } = useAuth();
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false)
 
   const openModal = () => {
+    setEmployee(employee)
     setIsModalOpen(true)
   }
   const closeModal = () => {
     setIsModalOpen(false)
+    setEmployee({});
+    setSlot({})
   }
   return (
     <div className="bg-gray-50 border hover:border-cyan-400 rounded-md shadow-md p-2">

@@ -8,6 +8,9 @@ const useCredential = () => {
     const [slots, setSlots] = useState([]);
     const [services, setServices] = useState([]);
     const [employees, setEmployees] = useState([]);
+    const [service, setService] = useState({});
+    const [employee, setEmployee] = useState({});
+    const [slot, setSlot] = useState({});
 
     // get single user by id
     useEffect(() => {
@@ -140,7 +143,13 @@ const useCredential = () => {
         services,
         setServices,
         employees,
-        setEmployees
+        setEmployees,
+        service,
+        setService,
+        employee,
+        setEmployee,
+        slot,
+        setSlot,
     };
 };
 
