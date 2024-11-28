@@ -13,6 +13,8 @@ import CreateService from "../../components/Admin/ServiceModule/CreateService";
 import ViewService from "../../components/Admin/ServiceModule/ViewService";
 import CreateEmployee from "../../components/Admin/EmployeeModule/CreateEmployee";
 import ViewEmployee from "../../components/Admin/EmployeeModule/ViewEmployee";
+import ViewAllPayments from "../../components/Admin/PaymentsModule/ViewAllPayments";
+import ViewAllAppointments from "../../components/Admin/AppointmentsModule/ViewAllAppointments";
 
 function Admin() {
     const { user, logout } = useAuth();
@@ -52,15 +54,25 @@ function Admin() {
                     </div>
 
                     <div className="min-w-full shadow rounded border border-gray-300">
+                        <h2 className="flex items-center justify-center bg-pink-800 font-semibold text-white p-2">Employee Module</h2>
+                        <CreateEmployee />
+                        <ViewEmployee />
+                    </div>
+
+                    <div className="min-w-full shadow rounded border border-gray-300 lg:col-span-2">
                         <h2 className="flex items-center justify-center bg-pink-800 font-semibold text-white p-2">Service Module</h2>
                         <CreateService />
                         <ViewService />
                     </div>
 
-                    <div className="min-w-full shadow rounded border border-gray-300">
-                        <h2 className="flex items-center justify-center bg-pink-800 font-semibold text-white p-2">Employee Module</h2>
-                        <CreateEmployee />
-                        <ViewEmployee />
+                    <div className="min-w-full shadow rounded border border-gray-300 lg:col-span-2">
+                        <h2 className="flex items-center justify-center bg-pink-800 font-semibold text-white p-2">Payments Module</h2>
+                        <ViewAllPayments />
+                    </div>
+
+                    <div className="min-w-full shadow rounded border border-gray-300 lg:col-span-2">
+                        <h2 className="flex items-center justify-center bg-pink-800 font-semibold text-white p-2">Appointments Module</h2>
+                        <ViewAllAppointments />
                     </div>
                 </div>
             </div>

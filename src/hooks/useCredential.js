@@ -11,6 +11,9 @@ const useCredential = () => {
     const [service, setService] = useState({});
     const [employee, setEmployee] = useState({});
     const [slot, setSlot] = useState({});
+    const [bookings, setBookings] = useState([]);
+    const [allBookings, setAllBookings] = useState([]);
+    const [employeePayments, setEmployeePayments] = useState([]);
 
     // get single user by id
     useEffect(() => {
@@ -51,8 +54,8 @@ const useCredential = () => {
                 setUsers([]);
             }
         };
-        fetchData();
-    }, []);
+        user.role === 'admin' && fetchData();
+    }, [user.role]);
 
     // fetch categories
     useEffect(() => {
@@ -94,41 +97,96 @@ const useCredential = () => {
 
     // fetch services
     useEffect(() => {
-      const fetchData = async () => {
-          try {
-              const response = await fetch("http://localhost:5000/services");
-              const result = await response.json();
+        const fetchData = async () => {
+            try {
+                const response = await fetch("http://localhost:5000/services");
+                const result = await response.json();
 
-              if (result.status) {
-                  setServices(result.services);
-              } else {
+                if (result.status) {
+                    setServices(result.services);
+                } else {
+                    setServices([]);
+                }
+            } catch (error) {
                 setServices([]);
-              }
-          } catch (error) {
-            setServices([]);
-          }
-      };
-      fetchData();
-  }, []);
-
-  //fetch employees
-  useEffect(() => {
-    const fetchData = async () => {
-        try {
-            const response = await fetch("http://localhost:5000/employees");
-            const result = await response.json();
-
-            if (result.status) {
-                setEmployees(result.employees);
-            } else {
-              setEmployees([]);
             }
-        } catch (error) {
-          setEmployees([]);
+        };
+        fetchData();
+    }, []);
+
+    //fetch employees
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch("http://localhost:5000/employees");
+                const result = await response.json();
+
+                if (result.status) {
+                    setEmployees(result.employees);
+                } else {
+                    setEmployees([]);
+                }
+            } catch (error) {
+                setEmployees([]);
+            }
+        };
+        fetchData();
+    }, []);
+
+    // fetch payments by email
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch(`http://localhost:5000/payments/${user.email}`);
+                const result = await response.json();
+                if (result.status) {
+                    setBookings(result.payments);
+                } else {
+                    setBookings([]);
+                }
+            } catch (error) {
+                setBookings([]);
+            }
         }
-    };
-    fetchData();
-}, []);
+        user.role === 'user' && fetchData()
+    }, [user.role, user.email])
+
+    // fetch all bookings
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch("http://localhost:5000/bookings");
+                const result = await response.json();
+                if (result.status) {
+                    setAllBookings(result.bookings);
+                } else {
+                    setAllBookings([]);
+                }
+            } catch (error) {
+                setAllBookings([]);
+            }
+        }
+        user.role === 'admin' && fetchData();
+    }, [user.role])
+
+    // fetch employee payments
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch(`http://localhost:5000/employee-payments/${user.name}`);
+                const result = await response.json();
+                if (result.status) {
+                    setEmployeePayments(result.payments);
+                } else {
+                    setEmployeePayments([]);
+                }
+            } catch (error) {
+                setEmployeePayments([]);
+            }
+        }
+        user.role === 'employee' && fetchData();
+    }, [user.role, user.name])
+
 
     return {
         user,
@@ -150,6 +208,12 @@ const useCredential = () => {
         setEmployee,
         slot,
         setSlot,
+        bookings,
+        setBookings,
+        allBookings,
+        setAllBookings,
+        employeePayments,
+        setEmployeePayments,
     };
 };
 
