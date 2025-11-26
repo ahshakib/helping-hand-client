@@ -1,6 +1,7 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { FaEnvelope, FaLock, FaUser } from "react-icons/fa";
+import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../../components/Navbar";
 import useAuth from "../../hooks/useAuth";
 
@@ -63,73 +64,119 @@ function Register() {
   };
 
   return (
-    <div>
+    <div className="min-h-screen relative">
       <Navbar />
-      <form
-        id="register_form"
-        onSubmit={handleSubmit(onSubmit)}
-        className="w-full lg:w-1/3 xl:w-1/2 mx-auto flex items-center content-center px-5 h-96"
-      >
-        <div className="w-full">
-          <h1 className="text-center text-2xl font-semibold my-5 text-pink-900">
-            Sign Up
-          </h1>
+      
+      {/* Background with Gradient */}
+      <div className="absolute inset-0 bg-gradient-to-br from-secondary-500 via-primary-500 to-accent-500 -z-10"></div>
+      <div className="absolute inset-0 bg-black/20 -z-10"></div>
 
-          <div className="my-2">
-            <input
-              type="text"
-              placeholder="Enter your name"
-              autoComplete={`name`}
-              className="w-full p-2 border-2 rounded-md border-pink-700 focus:outline-pink-400"
-              {...register("name", { required: true })}
-            />
-            {errors.name && (
-              <span className="text-rose-500">Name is required</span>
-            )}
+      {/* Register Form Container */}
+      <div className="container mx-auto px-4 flex items-center justify-center min-h-[calc(100vh-5rem)]">
+        <div className="w-full max-w-md animate-fade-in">
+          {/* Glassmorphism Card */}
+          <div className="bg-white/95 backdrop-blur-lg rounded-3xl shadow-2xl p-8 md:p-10">
+            <form
+              id="register_form"
+              onSubmit={handleSubmit(onSubmit)}
+              className="space-y-6"
+            >
+              <div className="text-center mb-8">
+                <h1 className="text-4xl font-bold font-heading bg-gradient-to-r from-secondary-600 to-primary-600 bg-clip-text text-transparent mb-2">
+                  Create Account
+                </h1>
+                <p className="text-gray-600">Join Helping Hand today</p>
+              </div>
+
+              {/* Name Input */}
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-gray-700">Full Name</label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <FaUser className="text-gray-400" />
+                  </div>
+                  <input
+                    type="text"
+                    placeholder="Enter your name"
+                    autoComplete="name"
+                    className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-200 transition-all"
+                    {...register("name", { required: true })}
+                  />
+                </div>
+                {errors.name && (
+                  <span className="text-red-500 text-sm">Name is required</span>
+                )}
+              </div>
+
+              {/* Email Input */}
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-gray-700">Email Address</label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <FaEnvelope className="text-gray-400" />
+                  </div>
+                  <input
+                    type="email"
+                    placeholder="Enter your email"
+                    autoComplete="email"
+                    className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-200 transition-all"
+                    {...register("email", { required: true })}
+                  />
+                </div>
+                {errors.email && (
+                  <span className="text-red-500 text-sm">Email is required</span>
+                )}
+              </div>
+
+              {/* Password Input */}
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-gray-700">Password</label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <FaLock className="text-gray-400" />
+                  </div>
+                  <input
+                    type="password"
+                    placeholder="Enter your password"
+                    autoComplete="current-password"
+                    className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-200 transition-all"
+                    {...register("password", { required: true })}
+                  />
+                </div>
+                {errors.password && (
+                  <span className="text-red-500 text-sm">Password is required</span>
+                )}
+              </div>
+
+              {/* Error Message */}
+              {err && (
+                <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-xl">
+                  {err}
+                </div>
+              )}
+
+              {/* Register Button */}
+              <button
+                id="login_btn"
+                className="w-full bg-gradient-to-r from-secondary-500 to-primary-500 hover:from-secondary-600 hover:to-primary-600 text-white font-semibold py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+              >
+                Register
+              </button>
+
+              {/* Login Link */}
+              <p className="text-center text-gray-600">
+                Already have an account?{" "}
+                <Link 
+                  className="text-primary-600 hover:text-primary-700 font-semibold hover:underline transition-all" 
+                  to="/login"
+                >
+                  Login
+                </Link>
+              </p>
+            </form>
           </div>
-
-          <div className="my-2">
-            <input
-              type="email"
-              placeholder="Enter your email"
-              autoComplete={`email`}
-              className="w-full p-2 border-2 rounded-md border-pink-700 focus:outline-pink-400"
-              {...register("email", { required: true })}
-            />
-            {errors.email && (
-              <span className="text-rose-500">Email is required</span>
-            )}
-          </div>
-          <div className="my-2">
-            <input
-              type="password"
-              placeholder="Enter your password"
-              autoComplete={`current-password`}
-              className="w-full p-2 border-2 rounded-md border-pink-700 focus:outline-pink-400"
-              {...register("password", { required: true })}
-            />
-            {errors.password && (
-              <span className="text-rose-500">Password is required</span>
-            )}
-          </div>
-
-          <p className="my-3 text-rose-500 font-bold">{err}</p>
-
-          <p className="my-3 text-pink-800">
-            Already have an account?{" "}
-            <Link className="underline" to="/login">
-              Login
-            </Link>
-          </p>
-
-          <button
-            id="login_btn"
-            className="bg-pink-700 hover:bg-pink-800 text-white w-full py-2 rounded-md"
-          >
-            Register
-          </button>
         </div>
-      </form>
+      </div>
     </div>
   );
 }

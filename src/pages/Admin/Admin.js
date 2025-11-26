@@ -1,20 +1,20 @@
-import React, { useEffect } from "react";
-import Navbar from "../../components/Navbar";
-import useAuth from "../../hooks/useAuth";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import CreateUser from "../../components/Admin/UserModule/CreateUser";
 import { ToastContainer } from "react-toastify";
-import ViewUsers from "../../components/Admin/UserModule/ViewUsers";
+import ViewAllAppointments from "../../components/Admin/AppointmentsModule/ViewAllAppointments";
 import CreateCategory from "../../components/Admin/CategoryModule/CreateCategory";
 import ViewCategory from "../../components/Admin/CategoryModule/ViewCategory";
-import CreateSlot from "../../components/Admin/SlotModule/CreateSlot";
-import ViewSlot from "../../components/Admin/SlotModule/ViewSlot";
-import CreateService from "../../components/Admin/ServiceModule/CreateService";
-import ViewService from "../../components/Admin/ServiceModule/ViewService";
 import CreateEmployee from "../../components/Admin/EmployeeModule/CreateEmployee";
 import ViewEmployee from "../../components/Admin/EmployeeModule/ViewEmployee";
 import ViewAllPayments from "../../components/Admin/PaymentsModule/ViewAllPayments";
-import ViewAllAppointments from "../../components/Admin/AppointmentsModule/ViewAllAppointments";
+import CreateService from "../../components/Admin/ServiceModule/CreateService";
+import ViewService from "../../components/Admin/ServiceModule/ViewService";
+import CreateSlot from "../../components/Admin/SlotModule/CreateSlot";
+import ViewSlot from "../../components/Admin/SlotModule/ViewSlot";
+import CreateUser from "../../components/Admin/UserModule/CreateUser";
+import ViewUsers from "../../components/Admin/UserModule/ViewUsers";
+import Navbar from "../../components/Navbar";
+import useAuth from "../../hooks/useAuth";
 
 function Admin() {
     const { user, logout } = useAuth();
@@ -25,57 +25,122 @@ function Admin() {
         user.role === 'user' && navigate('/dashboard');
         user.role === 'employee' && navigate('/employee');
     }, [user.role, navigate])
+    
     return (
-        <div>
+        <div className="min-h-screen bg-gray-50">
             <Navbar />
-            <div className="container mx-auto">
-                <div className="bg-pink-100 p-4 sm:flex items-center justify-between rounded mt-2">
-                    <h1 className="text-gray-500 text-xl font-semibold">Welcome, <span className="text-pink-700 capitalize font-mono">{user.name}</span></h1>
-                    <button onClick={logout} className="bg-pink-700 hover:bg-pink-800 text-white font-medium border px-4 py-2 rounded-full mt-2 sm:mt-0">Logout</button>
+            
+            {/* Page Header */}
+            <div className="relative bg-gradient-to-r from-secondary-600 via-primary-600 to-secondary-700 py-12 mb-8">
+                <div className="absolute inset-0 bg-black/10"></div>
+                <div className="container mx-auto px-4 relative z-10">
+                    <h1 className="text-3xl md:text-4xl font-bold font-heading text-white mb-2 animate-fade-in">
+                        Admin Dashboard
+                    </h1>
+                    <p className="text-white/90 text-lg animate-fade-in delay-200">
+                        Manage all system modules and settings
+                    </p>
                 </div>
+            </div>
 
-                <div className="grid lg:grid-cols-2 grid-cols-1 gap-8 my-10 mx-3 sm:mx-0">
-                    <div className="min-w-full shadow rounded border border-gray-300">
-                        <h2 className="flex items-center justify-center bg-pink-800 font-semibold text-white p-2">User Module</h2>
-                        <CreateUser />
-                        <ViewUsers />
+            {/* Welcome Banner */}
+            <div className="container mx-auto px-4 mb-8">
+                <div className="bg-gradient-to-r from-secondary-50 to-primary-50 border border-secondary-200 rounded-2xl p-6 shadow-lg flex flex-col sm:flex-row items-center justify-between animate-slide-up">
+                    <div>
+                        <h2 className="text-2xl font-bold font-heading text-gray-800">
+                            Welcome back, <span className="text-secondary-600">{user.name}</span>! 👨‍💼
+                        </h2>
+                        <p className="text-gray-600 mt-1">Manage your services platform efficiently</p>
+                    </div>
+                    <button 
+                        onClick={logout} 
+                        className="mt-4 sm:mt-0 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-semibold px-6 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+                    >
+                        Logout
+                    </button>
+                </div>
+            </div>
+
+            {/* Admin Modules */}
+            <div className="container mx-auto px-4 pb-16">
+                <div className="grid lg:grid-cols-2 grid-cols-1 gap-8">
+                    {/* User Module */}
+                    <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden animate-slide-up delay-100">
+                        <div className="bg-gradient-to-r from-primary-600 to-primary-700 p-4">
+                            <h2 className="font-bold font-heading text-white text-lg">👤 User Module</h2>
+                        </div>
+                        <div className="p-4">
+                            <CreateUser />
+                            <ViewUsers />
+                        </div>
                     </div>
 
-                    <div className="min-w-full shadow rounded border border-gray-300">
-                        <h2 className="flex items-center justify-center bg-pink-800 font-semibold text-white p-2">Category Module</h2>
-                        <CreateCategory />
-                        <ViewCategory />
+                    {/* Category Module */}
+                    <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden animate-slide-up delay-200">
+                        <div className="bg-gradient-to-r from-secondary-600 to-secondary-700 p-4">
+                            <h2 className="font-bold font-heading text-white text-lg">📂 Category Module</h2>
+                        </div>
+                        <div className="p-4">
+                            <CreateCategory />
+                            <ViewCategory />
+                        </div>
                     </div>
 
-                    <div className="min-w-full shadow rounded border border-gray-300">
-                        <h2 className="flex items-center justify-center bg-pink-800 font-semibold text-white p-2">Slot Module</h2>
-                        <CreateSlot />
-                        <ViewSlot />
+                    {/* Slot Module */}
+                    <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden animate-slide-up delay-300">
+                        <div className="bg-gradient-to-r from-accent-600 to-accent-700 p-4">
+                            <h2 className="font-bold font-heading text-white text-lg">🕐 Slot Module</h2>
+                        </div>
+                        <div className="p-4">
+                            <CreateSlot />
+                            <ViewSlot />
+                        </div>
                     </div>
 
-                    <div className="min-w-full shadow rounded border border-gray-300">
-                        <h2 className="flex items-center justify-center bg-pink-800 font-semibold text-white p-2">Employee Module</h2>
-                        <CreateEmployee />
-                        <ViewEmployee />
+                    {/* Employee Module */}
+                    <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden animate-slide-up delay-400">
+                        <div className="bg-gradient-to-r from-primary-600 to-primary-700 p-4">
+                            <h2 className="font-bold font-heading text-white text-lg">👷 Employee Module</h2>
+                        </div>
+                        <div className="p-4">
+                            <CreateEmployee />
+                            <ViewEmployee />
+                        </div>
                     </div>
 
-                    <div className="min-w-full shadow rounded border border-gray-300 lg:col-span-2">
-                        <h2 className="flex items-center justify-center bg-pink-800 font-semibold text-white p-2">Service Module</h2>
-                        <CreateService />
-                        <ViewService />
+                    {/* Service Module */}
+                    <div className="lg:col-span-2 bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden animate-slide-up delay-500">
+                        <div className="bg-gradient-to-r from-secondary-600 to-secondary-700 p-4">
+                            <h2 className="font-bold font-heading text-white text-lg">🛠️ Service Module</h2>
+                        </div>
+                        <div className="p-4">
+                            <CreateService />
+                            <ViewService />
+                        </div>
                     </div>
 
-                    <div className="min-w-full shadow rounded border border-gray-300 lg:col-span-2">
-                        <h2 className="flex items-center justify-center bg-pink-800 font-semibold text-white p-2">Payments Module</h2>
-                        <ViewAllPayments />
+                    {/* Payments Module */}
+                    <div className="lg:col-span-2 bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden animate-slide-up delay-600">
+                        <div className="bg-gradient-to-r from-accent-600 to-accent-700 p-4">
+                            <h2 className="font-bold font-heading text-white text-lg">💳 Payments Module</h2>
+                        </div>
+                        <div className="p-4">
+                            <ViewAllPayments />
+                        </div>
                     </div>
 
-                    <div className="min-w-full shadow rounded border border-gray-300 lg:col-span-2">
-                        <h2 className="flex items-center justify-center bg-pink-800 font-semibold text-white p-2">Appointments Module</h2>
-                        <ViewAllAppointments />
+                    {/* Appointments Module */}
+                    <div className="lg:col-span-2 bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden animate-slide-up delay-700">
+                        <div className="bg-gradient-to-r from-primary-600 to-primary-700 p-4">
+                            <h2 className="font-bold font-heading text-white text-lg">📅 Appointments Module</h2>
+                        </div>
+                        <div className="p-4">
+                            <ViewAllAppointments />
+                        </div>
                     </div>
                 </div>
             </div>
+            
             <ToastContainer autoClose={2000}/>
         </div>
     );

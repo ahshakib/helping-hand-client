@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import Navbar from "../../components/Navbar";
+import { useEffect, useState } from "react";
+import { FaArrowLeft } from "react-icons/fa";
+import { Link, useParams } from "react-router-dom";
 import EmployeeAbout from "../../components/Employees/EmployeeAbout";
 import EmployeeReview from "../../components/Employees/EmployeeReview";
+import Footer from "../../components/Home/Footer";
+import Navbar from "../../components/Navbar";
 import useAuth from "../../hooks/useAuth";
 
 const EmployeeDetails = () => {
@@ -36,38 +38,82 @@ const EmployeeDetails = () => {
       setTab(tabName)
     }
   }
+  
   return (
-    <div>
+    <div className="min-h-screen bg-gray-50">
       <Navbar />
-      <div className="container mx-auto p-2">
-        <div className="md:flex items-center mt-5 h-44">
-          <div className="">
+      
+      {/* Page Header */}
+      <div className="relative bg-gradient-to-r from-accent-600 via-primary-600 to-accent-700 py-12 mb-8">
+        <div className="absolute inset-0 bg-black/10"></div>
+        <div className="container mx-auto px-4 relative z-10">
+          <Link 
+            to="/employees" 
+            className="inline-flex items-center text-white/90 hover:text-white mb-4 transition-colors"
+          >
+            <FaArrowLeft className="mr-2" /> Back to Employees
+          </Link>
+          <h1 className="text-3xl md:text-4xl font-bold font-heading text-white animate-fade-in">
+            Professional Profile
+          </h1>
+        </div>
+      </div>
+
+      {/* Employee Profile Section */}
+      <div className="container mx-auto px-4 pb-8">
+        <div className="bg-white rounded-2xl shadow-lg p-8 border border-gray-100 animate-slide-up">
+          <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
             <img
               src={employee.image}
               alt={employee.name}
-              className="w-24 rounded-full shadow"
+              className="w-32 h-32 rounded-full shadow-lg border-4 border-primary-100 object-cover"
             />
+            <div className="text-center md:text-left flex-1">
+              <h2 className="text-3xl font-bold font-heading text-gray-800 mb-2">
+                {employee.name}
+              </h2>
+              <p className="text-lg text-gray-600 mb-2">{employee.bio}</p>
+              <p className="text-2xl font-bold text-primary-600">
+                ৳{Number(employee.rate || 0).toLocaleString()}
+              </p>
+            </div>
           </div>
-          <div className="md:pl-5 md:m-0 mt-10">
-            <h2 className="text-xl font-bold">{employee.name}</h2>
-            <h3 className="text-sm text-gray-600">{employee.bio}</h3>
-            <h4 className="text-sm text-gray-800">
-              ৳{Number(employee.rate || 0).toLocaleString()}
-            </h4>
+
+          {/* Tab Navigation */}
+          <div className="mt-8 border-b border-gray-200">
+            <div className="flex space-x-8">
+              <button 
+                onClick={() => handleTabChange("About")} 
+                className={`pb-4 px-2 text-lg font-semibold transition-all border-b-2 ${
+                  !toggle 
+                    ? 'text-primary-600 border-primary-600' 
+                    : 'text-gray-500 border-transparent hover:text-primary-500 hover:border-primary-300'
+                }`}
+              >
+                About
+              </button>
+              <button 
+                onClick={() => handleTabChange("Review")} 
+                className={`pb-4 px-2 text-lg font-semibold transition-all border-b-2 ${
+                  toggle 
+                    ? 'text-primary-600 border-primary-600' 
+                    : 'text-gray-500 border-transparent hover:text-primary-500 hover:border-primary-300'
+                }`}
+              >
+                Ratings and Reviews
+              </button>
+            </div>
           </div>
         </div>
-        <div className="mt-5 pt-5 md:pt-0">
-          <button onClick={() => handleTabChange("About")} className={`text-lg font-bold tracking-wide border-b-2 p-2 ${toggle ? 'text-sky-950 hover:border-sky-800' : 'text-sky-800 border-sky-800'}`}>About</button>
-          <button onClick={() => handleTabChange("Review")} className={`text-lg font-bold tracking-wide border-b-2 p-2 ms-5 ${toggle ? 'text-sky-800 border-sky-800' : 'text-sky-950 hover:border-sky-800'}`}>Ratings and Reviews</button>
-        </div>
-        
       </div>
-      {
-          employee.name && tab === "About" && <EmployeeAbout employee={employee} />
-        }
-        {
-          employee.name && tab === "Review" && <EmployeeReview />
-        }
+      
+      {/* Tab Content */}
+      <div className="container mx-auto px-4 pb-16">
+        {employee.name && tab === "About" && <EmployeeAbout employee={employee} />}
+        {employee.name && tab === "Review" && <EmployeeReview />}
+      </div>
+
+      <Footer />
     </div>
   );
 };

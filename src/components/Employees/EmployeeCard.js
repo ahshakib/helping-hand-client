@@ -1,66 +1,92 @@
-import React from "react";
+import { FaMapMarkerAlt, FaStar } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 
 const EmployeeCard = ({ employee }) => {
     const navigate = useNavigate();
     const {setEmployee} = useAuth()
+    
     return (
-        <div className="bg-gradient-to-br from-teal-400 via-cyan-500 to-blue-500 rounded-2xl shadow-2xl transition-all duration-300 hover:shadow-3xl hover:scale-105 p-6 overflow-hidden relative">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-yellow-300 rounded-full filter blur-3xl opacity-50 -mr-16 -mt-16"></div>
-            <div className="absolute bottom-0 left-0 w-32 h-32 bg-pink-300 rounded-full filter blur-3xl opacity-50 -ml-16 -mb-16"></div>
-            <div className="flex items-center relative z-10">
-                <div className="flex-shrink-0">
-                    <img
-                        src={employee.image}
-                        alt={employee.name}
-                        className="w-32 h-32 rounded-full border-4 border-white shadow-lg object-cover"
-                    />
-                </div>
-                <div className="ml-6">
-                    <h2 className="text-3xl font-bold text-white mb-1 hover:text-yellow-300 transition duration-200">{employee.name}</h2>
-                    <h3 className="text-lg font-medium text-white opacity-90">{employee.bio}</h3>
-                    <div className="flex items-center mt-2">
-                        <span className="text-yellow-300 mr-2">📍</span>
-                        <h3 className="text-sm text-white opacity-80">{employee.location}</h3>
+        <div className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 p-6 border border-gray-100">
+            {/* Header with Image and Basic Info */}
+            <div className="flex items-start gap-4 mb-4">
+                <img
+                    src={employee.image}
+                    alt={employee.name}
+                    className="w-24 h-24 rounded-full border-4 border-primary-100 shadow-md object-cover flex-shrink-0"
+                />
+                <div className="flex-1 min-w-0">
+                    <h2 className="text-2xl font-bold font-heading text-gray-800 mb-1 truncate">
+                        {employee.name}
+                    </h2>
+                    <p className="text-gray-600 mb-2 line-clamp-2">{employee.bio}</p>
+                    <div className="flex items-center text-gray-500 text-sm mb-1">
+                        <FaMapMarkerAlt className="mr-1 text-accent-500 flex-shrink-0" />
+                        <span className="truncate">{employee.location}</span>
                     </div>
-                    <div className="flex items-center mt-2">
-                        <span className="text-yellow-300 mr-2">৳</span>
-                        <h4 className="text-xl text-white font-bold">
-                            {Number(employee.rate).toLocaleString()}
-                        </h4>
+                    <div className="flex items-center">
+                        <span className="text-2xl font-bold text-primary-600">
+                            ৳{Number(employee.rate).toLocaleString()}
+                        </span>
+                        <span className="text-gray-500 text-sm ml-1">/service</span>
                     </div>
                 </div>
             </div>
-            <p className="line-clamp-3 mt-6 text-justify text-sm text-white opacity-90">{employee.details}</p>
-            <div className="flex flex-wrap gap-3 my-4 text-xs items-center">
-                {
-                    employee.services.length > 3 ? 
-                    <>
-                        {
-                            employee.services.slice(0, 3).map((service, index) => (
-                                <p key={index} className="bg-white text-cyan-700 rounded-full px-4 py-2 font-semibold transition duration-200 transform hover:scale-105 hover:bg-yellow-300 hover:text-blue-700">{service}</p>
-                            ))
-                        }
-                        <p className="text-white opacity-80">+{employee.services.length - 3} more</p>
-                    </> : 
-                    employee.services.map((service, index) => (
-                        <p key={index} className="bg-white text-cyan-700 rounded-full px-4 py-2 font-semibold transition duration-200 transform hover:scale-105 hover:bg-yellow-300 hover:text-blue-700">{service}</p>
-                    ))
-                }
+
+            {/* Details */}
+            <p className="text-gray-600 text-sm leading-relaxed mb-4 line-clamp-2">
+                {employee.details}
+            </p>
+
+            {/* Services Tags */}
+            <div className="mb-4">
+                <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">
+                    Specialties
+                </h3>
+                <div className="flex flex-wrap gap-2">
+                    {employee.services.length > 4 ? (
+                        <>
+                            {employee.services.slice(0, 4).map((service, index) => (
+                                <span 
+                                    key={index} 
+                                    className="bg-gradient-to-r from-primary-50 to-accent-50 border border-primary-200 text-primary-700 rounded-full px-3 py-1 text-xs font-medium"
+                                >
+                                    {service}
+                                </span>
+                            ))}
+                            <span className="bg-gray-100 text-gray-600 rounded-full px-3 py-1 text-xs font-medium">
+                                +{employee.services.length - 4} more
+                            </span>
+                        </>
+                    ) : (
+                        employee.services.map((service, index) => (
+                            <span 
+                                key={index} 
+                                className="bg-gradient-to-r from-primary-50 to-accent-50 border border-primary-200 text-primary-700 rounded-full px-3 py-1 text-xs font-medium"
+                            >
+                                {service}
+                            </span>
+                        ))
+                    )}
+                </div>
             </div>
-            <div className="flex items-center justify-between mt-6">
-                <div className="flex items-center">
-                    <span className="text-yellow-300 mr-1">⭐</span>
-                    <span className="text-white font-bold">4.9</span>
-                    <span className="text-white opacity-80 ml-1">(120 reviews)</span>
+
+            {/* Footer with Rating and Button */}
+            <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+                <div className="flex items-center gap-2">
+                    <div className="flex items-center bg-amber-50 rounded-full px-3 py-1">
+                        <FaStar className="text-amber-400 mr-1" />
+                        <span className="font-bold text-gray-800">4.9</span>
+                    </div>
+                    <span className="text-gray-500 text-sm">(120 reviews)</span>
                 </div>
                 <button 
                     onClick={() => {
                         setEmployee(employee);
                         navigate(`/employee-details/${employee._id}`);
                     }} 
-                    className="bg-white text-cyan-700 hover:bg-yellow-300 hover:text-blue-700 rounded-full text-sm py-3 px-6 transition duration-300 ease-in-out transform hover:scale-105 shadow-lg hover:shadow-xl font-bold">
+                    className="bg-gradient-to-r from-primary-500 to-accent-500 hover:from-primary-600 hover:to-accent-600 text-white font-semibold px-5 py-2.5 rounded-full transition-all duration-300 hover:scale-105 shadow-md hover:shadow-lg text-sm"
+                >
                     View Profile
                 </button>
             </div>

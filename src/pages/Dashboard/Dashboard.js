@@ -1,9 +1,11 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
+import { FaCalendarAlt, FaWallet } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
+import AppointmentHistory from '../../components/Dashboard/AppointmentHistory';
+import PaymentHistory from '../../components/Dashboard/PaymentHistory';
+import Footer from '../../components/Home/Footer';
 import Navbar from '../../components/Navbar';
 import useAuth from '../../hooks/useAuth';
-import { useNavigate } from 'react-router-dom';
-import PaymentHistory from '../../components/Dashboard/PaymentHistory';
-import AppointmentHistory from '../../components/Dashboard/AppointmentHistory';
 
 function Dashboard() {
     const { user, logout } = useAuth();
@@ -16,24 +18,68 @@ function Dashboard() {
     }, [user.role, navigate])
 
     return (
-        <div>
+        <div className="min-h-screen bg-gray-50">
             <Navbar />
-            <div className="container mx-auto">
-                <div className="bg-emerald-100 p-4 sm:flex items-center justify-between rounded">
-                    <h1 className="text-gray-500 text-xl font-semibold">Welcome, <span className="text-lime-600 capitalize">{user.name}</span></h1>
-                    <button onClick={logout} className="bg-red-500 hover:bg-red-700 text-white font-medium border px-4 py-2 rounded-full mt-2 sm:mt-0">Logout</button>
+            
+            {/* Page Header */}
+            <div className="relative bg-gradient-to-r from-primary-600 via-accent-500 to-primary-700 py-12 mb-8">
+                <div className="absolute inset-0 bg-black/10"></div>
+                <div className="container mx-auto px-4 relative z-10">
+                    <h1 className="text-3xl md:text-4xl font-bold font-heading text-white mb-2 animate-fade-in">
+                        My Dashboard
+                    </h1>
+                    <p className="text-white/90 text-lg animate-fade-in delay-200">
+                        Manage your bookings and payments
+                    </p>
                 </div>
-                <div className="grid grid-cols-1 gap-8 my-5">
-                    <div className="bg-white rounded shadow shadow-lime-400 p-4">
-                        <h1 className="text-gray-500 text-2xl font-bold mb-4">Payment History</h1>
+            </div>
+
+            {/* Welcome Banner */}
+            <div className="container mx-auto px-4 mb-8">
+                <div className="bg-gradient-to-r from-primary-50 to-accent-50 border border-primary-200 rounded-2xl p-6 shadow-lg flex flex-col sm:flex-row items-center justify-between animate-slide-up">
+                    <div>
+                        <h2 className="text-2xl font-bold font-heading text-gray-800">
+                            Welcome back, <span className="text-primary-600">{user.name}</span>! 👋
+                        </h2>
+                        <p className="text-gray-600 mt-1">Here's what's happening with your account</p>
+                    </div>
+                    <button 
+                        onClick={logout} 
+                        className="mt-4 sm:mt-0 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-semibold px-6 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+                    >
+                        Logout
+                    </button>
+                </div>
+            </div>
+
+            {/* Dashboard Content */}
+            <div className="container mx-auto px-4 pb-16">
+                <div className="grid grid-cols-1 gap-8">
+                    {/* Payment History Card */}
+                    <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100 animate-slide-up delay-200">
+                        <div className="flex items-center mb-6">
+                            <div className="bg-gradient-to-br from-primary-500 to-primary-600 p-3 rounded-xl mr-4">
+                                <FaWallet className="text-white text-2xl" />
+                            </div>
+                            <h2 className="text-2xl font-bold font-heading text-gray-800">Payment History</h2>
+                        </div>
                         <PaymentHistory />
                     </div>
-                    <div className="bg-white rounded shadow shadow-purple-400 p-4">
-                        <h1 className="text-gray-500 text-2xl font-bold mb-4">Appointment History</h1>
+                    
+                    {/* Appointment History Card */}
+                    <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100 animate-slide-up delay-300">
+                        <div className="flex items-center mb-6">
+                            <div className="bg-gradient-to-br from-accent-500 to-accent-600 p-3 rounded-xl mr-4">
+                                <FaCalendarAlt className="text-white text-2xl" />
+                            </div>
+                            <h2 className="text-2xl font-bold font-heading text-gray-800">Appointment History</h2>
+                        </div>
                         <AppointmentHistory />
                     </div>
                 </div>
             </div>
+
+            <Footer />
         </div>
     );
 }

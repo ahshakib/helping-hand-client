@@ -1,5 +1,4 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
 
 const ServiceCard = ({ service }) => {
@@ -12,16 +11,42 @@ const ServiceCard = ({ service }) => {
             return false;
         }
     };
+
+    const imageUrl = service.image 
+        ? (isUrl(service.image) ? service.image : `http://localhost:5000${service.image}`)
+        : null;
+
     return (
-        <Link to={`/service-details/${service._id}`} className="" onClick={() => setService(service)}>
-            {
-                service.image ? (
-                    <img src={
-                        isUrl(service.image) ? service.image : `http://localhost:5000${service.image}`
-                    } alt={service.name} className="w-60 object-cover rounded" />
-                ) : ('No Image')
-            }
-            <h3 className="text-center w-3/4 mx-auto font-bold text-base mt-3">{service.name}</h3>
+        <Link 
+            to={`/service-details/${service._id}`} 
+            className="group block bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 overflow-hidden"
+            onClick={() => setService(service)}
+        >
+            {/* Image Container */}
+            <div className="relative h-48 overflow-hidden bg-gradient-to-br from-primary-100 to-accent-100">
+                {imageUrl ? (
+                    <>
+                        <img 
+                            src={imageUrl} 
+                            alt={service.name} 
+                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" 
+                        />
+                        {/* Gradient Overlay */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </>
+                ) : (
+                    <div className="w-full h-full flex items-center justify-center">
+                        <span className="text-gray-400 text-sm">No Image</span>
+                    </div>
+                )}
+            </div>
+
+            {/* Content */}
+            <div className="p-4">
+                <h3 className="text-center font-bold text-lg text-gray-800 group-hover:text-primary-600 transition-colors duration-300">
+                    {service.name}
+                </h3>
+            </div>
         </Link>
     )
 }

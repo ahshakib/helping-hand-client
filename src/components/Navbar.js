@@ -1,35 +1,44 @@
 import { Link, NavLink } from "react-router-dom";
-import logo from "../images/helping-hand-logo.png";
 import useAuth from "../hooks/useAuth";
+import logo from "../images/helping-hand-logo.png";
 
 function Navbar() {
   const { user } = useAuth();
+  
+  const linkBaseClass = "px-4 py-2 rounded-lg font-medium transition-all duration-300 relative overflow-hidden group";
+  const linkActive = "bg-gradient-to-r from-primary-500 to-primary-700 text-white shadow-lg";
+  const linkInactive = "text-gray-700 hover:text-white hover:bg-gradient-to-r hover:from-primary-500 hover:to-primary-700 hover:shadow-md";
+  
   return (
-    <div className="bg-white h-24 sticky top-0 shadow-md z-50">
-      <div className="container mx-auto flex justify-between items-center pt-3">
-        <Link to="/">
-          <img src={logo} alt="Helping Hand" className="w-28" />
+    <nav className="bg-white/80 backdrop-blur-md h-20 sticky top-0 shadow-lg z-50 border-b border-gray-100">
+      <div className="container mx-auto flex justify-between items-center h-full px-4">
+        {/* Logo Section */}
+        <Link to="/" className="group flex items-center">
+          <img 
+            src={logo} 
+            alt="Helping Hand" 
+            className="w-32 transition-transform duration-300 group-hover:scale-105" 
+          />
         </Link>
-        <div className="ms-auto">
+        
+        {/* Navigation Links */}
+        <div className="flex items-center space-x-2">
           <NavLink
             to="/services"
             className={({ isActive }) =>
-              isActive
-                ? "px-3 py-2 text-white border border-pink-800 rounded-md bg-pink-800 mx-2"
-                : "px-3 py-2 mx-2 border rounded-md border-pink-800 text-black hover:bg-pink-800 hover:text-white"
+              `${linkBaseClass} ${isActive ? linkActive : linkInactive}`
             }
           >
-            Services
+            <span className="relative z-10">Services</span>
           </NavLink>
+          
           <NavLink
             to="/employees"
             className={({ isActive }) =>
-              isActive
-                ? "px-3 py-2 text-white border border-pink-800 rounded-md bg-pink-800 mx-2"
-                : "px-3 py-2 mx-2 border rounded-md border-pink-800 text-black hover:bg-pink-800 hover:text-white"
+              `${linkBaseClass} ${isActive ? linkActive : linkInactive}`
             }
           >
-            Employees
+            <span className="relative z-10">Employees</span>
           </NavLink>
 
           {user.email ? (
@@ -38,12 +47,10 @@ function Navbar() {
                 <NavLink
                   to="/dashboard"
                   className={({ isActive }) =>
-                    isActive
-                      ? "px-3 py-2 text-white border border-pink-800 rounded-md bg-pink-800 mx-2"
-                      : "px-3 py-2 mx-2 border rounded-md border-pink-800 text-black hover:bg-pink-800 hover:text-white"
+                    `${linkBaseClass} ${isActive ? linkActive : linkInactive}`
                   }
                 >
-                  Dashboard
+                  <span className="relative z-10">Dashboard</span>
                 </NavLink>
               )}
 
@@ -51,12 +58,10 @@ function Navbar() {
                 <NavLink
                   to="/admin"
                   className={({ isActive }) =>
-                    isActive
-                      ? "px-3 py-2 text-white border border-pink-800 rounded-md bg-pink-800 mx-2"
-                      : "px-3 py-2 mx-2 border rounded-md border-pink-800 text-black hover:bg-pink-800 hover:text-white"
+                    `${linkBaseClass} ${isActive ? linkActive : linkInactive}`
                   }
                 >
-                  Admin
+                  <span className="relative z-10">Admin</span>
                 </NavLink>
               )}
 
@@ -64,12 +69,10 @@ function Navbar() {
                 <NavLink
                   to="/employee"
                   className={({ isActive }) =>
-                    isActive
-                      ? "px-3 py-2 text-white border border-pink-800 rounded-md bg-pink-800 mx-2"
-                      : "px-3 py-2 mx-2 border rounded-md border-pink-800 text-black hover:bg-pink-800 hover:text-white"
+                    `${linkBaseClass} ${isActive ? linkActive : linkInactive}`
                   }
                 >
-                  Employee
+                  <span className="relative z-10">Employee</span>
                 </NavLink>
               )}
             </>
@@ -77,17 +80,15 @@ function Navbar() {
             <NavLink
               to="/login"
               className={({ isActive }) =>
-                isActive
-                  ? "px-3 py-2 text-white border border-pink-800 rounded-md bg-pink-800 mx-2"
-                  : "px-3 py-2 mx-2 border rounded-md border-pink-800 text-black hover:bg-pink-800 hover:text-white"
+                `${linkBaseClass} ${isActive ? linkActive : linkInactive}`
               }
             >
-              Login
+              <span className="relative z-10">Login</span>
             </NavLink>
           )}
         </div>
       </div>
-    </div>
+    </nav>
   );
 }
 
