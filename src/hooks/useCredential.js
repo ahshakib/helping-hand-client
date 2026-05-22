@@ -69,7 +69,7 @@ const useCredential = () => {
             }
         };
         fetchData();
-    }, [user.role]);
+    }, [user, user.role]);
 
     // fetch categories
     useEffect(() => {
@@ -166,7 +166,7 @@ const useCredential = () => {
             }
         }
         fetchData();
-    }, [user.role, user.email])
+    }, [user, user.role, user.email])
 
     // fetch all bookings
     useEffect(() => {
@@ -187,7 +187,7 @@ const useCredential = () => {
             }
         }
         fetchData();
-    }, [user.role])
+    }, [user, user.role])
 
     // fetch employee payments
     useEffect(() => {
@@ -208,7 +208,7 @@ const useCredential = () => {
             }
         }
         fetchData();
-    }, [user.role, user.name])
+    }, [user, user.role, user.name])
 
 
     return {
