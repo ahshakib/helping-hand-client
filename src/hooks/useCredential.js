@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { getApiUrl } from "../api";
 
 const useCredential = () => {
     const id = localStorage.getItem("userId");
@@ -20,7 +21,7 @@ const useCredential = () => {
         if (id) {
             const fetchData = async () => {
                 try {
-                    const response = await fetch(`http://localhost:5000/user/${id}`);
+                    const response = await fetch(getApiUrl(`/user/${id}`));
                     const result = await response.json();
                     console.log('[useCredential] Fetch user response:', result);
                     // Defensive check: ensure result.user exists before setting
@@ -55,7 +56,7 @@ const useCredential = () => {
         
         const fetchData = async () => {
             try {
-                const response = await fetch("http://localhost:5000/user");
+                const response = await fetch(getApiUrl("/user"));
                 const result = await response.json();
 
                 if (result.status) {
@@ -74,7 +75,7 @@ const useCredential = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch("http://localhost:5000/categories");
+                const response = await fetch(getApiUrl("/categories"));
                 const result = await response.json();
 
                 if (result.status) {
@@ -93,7 +94,7 @@ const useCredential = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch("http://localhost:5000/slots");
+                const response = await fetch(getApiUrl("/slots"));
                 const result = await response.json();
 
                 if (result.status) {
@@ -112,7 +113,7 @@ const useCredential = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch("http://localhost:5000/services");
+                const response = await fetch(getApiUrl("/services"));
                 const result = await response.json();
 
                 if (result.status) {
@@ -131,7 +132,7 @@ const useCredential = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch("http://localhost:5000/employees");
+                const response = await fetch(getApiUrl("/employees"));
                 const result = await response.json();
 
                 if (result.status) {
@@ -153,7 +154,7 @@ const useCredential = () => {
         
         const fetchData = async () => {
             try {
-                const response = await fetch(`http://localhost:5000/payments/${user.email}`);
+                const response = await fetch(getApiUrl(`/payments/${user.email}`));
                 const result = await response.json();
                 if (result.status) {
                     setBookings(result.payments);
@@ -174,7 +175,7 @@ const useCredential = () => {
         
         const fetchData = async () => {
             try {
-                const response = await fetch("http://localhost:5000/bookings");
+                const response = await fetch(getApiUrl("/bookings"));
                 const result = await response.json();
                 if (result.status) {
                     setAllBookings(result.bookings);
@@ -195,7 +196,7 @@ const useCredential = () => {
         
         const fetchData = async () => {
             try {
-                const response = await fetch(`http://localhost:5000/employee-payments/${user.name}`);
+                const response = await fetch(getApiUrl(`/employee-payments/${user.name}`));
                 const result = await response.json();
                 if (result.status) {
                     setEmployeePayments(result.payments);

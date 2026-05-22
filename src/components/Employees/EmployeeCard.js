@@ -1,6 +1,7 @@
 import { FaMapMarkerAlt, FaStar } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
+import { getImageUrl } from "../../api";
 
 const EmployeeCard = ({ employee }) => {
     const navigate = useNavigate();
@@ -18,9 +19,7 @@ const EmployeeCard = ({ employee }) => {
     const imageUrl = employee.image 
         ? (isUrl(employee.image) 
             ? employee.image 
-            : (employee.image.startsWith('/uploads/') 
-                ? `http://localhost:5000${employee.image}` 
-                : `http://localhost:5000/uploads/${employee.image}`))
+            : getImageUrl(employee.image))
         : "https://via.placeholder.com/150";
 
     return (

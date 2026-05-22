@@ -1,13 +1,14 @@
 import React from 'react'
 import useAuth from '../../../hooks/useAuth'
 import { toast } from 'react-toastify';
+import { getApiUrl } from "../../../api";
 
 function ViewSlot() {
     const { slots, setSlots } = useAuth();
 
     const handleDelete = async (id) => {
         try {
-            const response = await fetch(`http://localhost:5000/slots/${id}`, {
+            const response = await fetch(getApiUrl(`/slots/${id}`), {
                 method: "DELETE",
             });
             const result = await response.json();
@@ -16,7 +17,7 @@ function ViewSlot() {
                 toast.success(result.message);
                 const fetchData = async () => {
                     try {
-                        const response = await fetch("http://localhost:5000/slots");
+                        const response = await fetch(getApiUrl("/slots"));
                         const result = await response.json();
 
                         if (result.status) {

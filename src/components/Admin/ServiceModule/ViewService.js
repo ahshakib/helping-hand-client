@@ -1,6 +1,7 @@
 import React from 'react'
 import useAuth from '../../../hooks/useAuth'
 import { toast } from 'react-toastify';
+import { getApiUrl, getImageUrl } from "../../../api";
 
 function ViewService() {
   const { services, setServices } = useAuth()
@@ -15,7 +16,7 @@ function ViewService() {
 
   const handleDelete = async (id) => {
     try {
-      const response = await fetch(`http://localhost:5000/service/${id}`, {
+      const response = await fetch(getApiUrl(`/service/${id}`), {
         method: "DELETE",
       });
       const result = await response.json();
@@ -24,7 +25,7 @@ function ViewService() {
         toast.success(result.message);
         const fetchData = async () => {
           try {
-            const response = await fetch("http://localhost:5000/services");
+            const response = await fetch(getApiUrl("/services"));
             const result = await response.json();
 
             if (result.status) {
@@ -80,9 +81,7 @@ function ViewService() {
                       <img src={
                         isUrl(service.image) 
                           ? service.image 
-                          : (service.image.startsWith('/uploads/') 
-                              ? `http://localhost:5000${service.image}` 
-                              : `http://localhost:5000/uploads/${service.image}`)
+                          : getImageUrl(service.image)
                       } alt={service.name} onError={(e) => {
                         e.target.onerror = null;
                         e.target.src = "https://via.placeholder.com/150";

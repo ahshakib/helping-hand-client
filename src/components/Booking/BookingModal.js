@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
+import { getApiUrl } from "../../api";
 
 function BookingModal({ isOpen, onClose, children }) {
   const { slots, user, service, employee, slot, setSlot } = useAuth();
@@ -37,7 +38,7 @@ function BookingModal({ isOpen, onClose, children }) {
 
         const fetchData = async () => {
           try {
-            const response = await fetch("http://localhost:5000/booking", {
+            const response = await fetch(getApiUrl("/booking"), {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
@@ -68,7 +69,7 @@ function BookingModal({ isOpen, onClose, children }) {
   const payNow = (amount, trxId) => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/pay/${amount}/${trxId}`);
+        const response = await fetch(getApiUrl(`/pay/${amount}/${trxId}`));
         const result = await response.json();
         if (result.status) {
           window.location.replace(`${result.payment_link}`);

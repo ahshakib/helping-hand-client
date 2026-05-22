@@ -1,13 +1,14 @@
 import React from 'react'
 import useAuth from '../../../hooks/useAuth'
 import { toast } from 'react-toastify';
+import { getApiUrl, getImageUrl } from "../../../api";
 
 function ViewEmployee() {
   const { employees, setEmployees } = useAuth()
 
   const handleDelete = async (id) => {
     try {
-      const response = await fetch(`http://localhost:5000/employee/${id}`, {
+      const response = await fetch(getApiUrl(`/employee/${id}`), {
         method: "DELETE",
       });
       const result = await response.json();
@@ -17,7 +18,7 @@ function ViewEmployee() {
 
         const fetchData = async () => {
           try {
-            const response = await fetch("http://localhost:5000/employees");
+            const response = await fetch(getApiUrl("/employees"));
             const result = await response.json();
 
             if (result.status) {
@@ -82,9 +83,7 @@ function ViewEmployee() {
                     const imageUrl = employee.image 
                       ? (isUrl(employee.image) 
                           ? employee.image 
-                          : (employee.image.startsWith('/uploads/') 
-                              ? `http://localhost:5000${employee.image}` 
-                              : `http://localhost:5000/uploads/${employee.image}`))
+                          : getImageUrl(employee.image))
                       : "https://via.placeholder.com/100";
                     return (
                       <img 

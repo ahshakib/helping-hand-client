@@ -2,6 +2,7 @@ import React from 'react'
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import useAuth from '../../../hooks/useAuth';
+import { getApiUrl } from "../../../api";
 
 function CreateSlot() {
   const { setSlots } = useAuth();
@@ -20,7 +21,7 @@ function CreateSlot() {
 
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:5000/slot", {
+        const response = await fetch(getApiUrl("/slot"), {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -34,7 +35,7 @@ function CreateSlot() {
           toast.success(result.message);
           const fetchData = async () => {
             try {
-              const response = await fetch("http://localhost:5000/slots");
+              const response = await fetch(getApiUrl("/slots"));
               const result = await response.json();
 
               if (result.status) {

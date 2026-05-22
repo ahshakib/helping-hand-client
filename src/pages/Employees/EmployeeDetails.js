@@ -6,6 +6,7 @@ import EmployeeReview from "../../components/Employees/EmployeeReview";
 import Footer from "../../components/Home/Footer";
 import Navbar from "../../components/Navbar";
 import useAuth from "../../hooks/useAuth";
+import { getApiUrl, getImageUrl } from "../../api";
 
 const EmployeeDetails = () => {
   const [toggle, setToggle] = useState(false)
@@ -17,7 +18,7 @@ const EmployeeDetails = () => {
     if(!employee.name) {
       const fetchData = async() => {
         try {
-          const response = await fetch(`http://localhost:5000/employee/${id}`);
+          const response = await fetch(getApiUrl(`/employee/${id}`));
           const result = await response.json();
           if(result.status) {
             setEmployee(result.employee);
@@ -51,9 +52,7 @@ const EmployeeDetails = () => {
   const imageUrl = employee.image 
     ? (isUrl(employee.image) 
         ? employee.image 
-        : (employee.image.startsWith('/uploads/') 
-            ? `http://localhost:5000${employee.image}` 
-            : `http://localhost:5000/uploads/${employee.image}`))
+        : getImageUrl(employee.image))
     : "https://via.placeholder.com/150";
 
   return (

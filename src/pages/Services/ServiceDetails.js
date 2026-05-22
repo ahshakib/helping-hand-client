@@ -5,6 +5,7 @@ import EmployeeMiniCard from "../../components/Employees/EmployeeMiniCard";
 import Footer from "../../components/Home/Footer";
 import Navbar from "../../components/Navbar";
 import useAuth from "../../hooks/useAuth";
+import { getApiUrl, getImageUrl } from "../../api";
 
 const ServiceDetails = () => {
   const { id } = useParams();
@@ -14,7 +15,7 @@ const ServiceDetails = () => {
     if (!service.name) {
       const fetchData = async () => {
         try {
-          const response = await fetch(`http://localhost:5000/service/${id}`);
+          const response = await fetch(getApiUrl(`/service/${id}`));
           const result = await response.json();
           if (result.status) {
             setService(result.service);
@@ -69,9 +70,7 @@ const ServiceDetails = () => {
                   src={
                     isUrl(service.image)
                       ? service.image
-                      : (service.image.startsWith('/uploads/') 
-                          ? `http://localhost:5000${service.image}` 
-                          : `http://localhost:5000/uploads/${service.image}`)
+                      : getImageUrl(service.image)
                   }
                   alt={service.name}
                   onError={(e) => {

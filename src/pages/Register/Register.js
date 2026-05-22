@@ -4,6 +4,7 @@ import { FaEnvelope, FaLock, FaUser } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../../components/Navbar";
 import useAuth from "../../hooks/useAuth";
+import { getApiUrl } from "../../api";
 
 function Register() {
   const [err, setErr] = useState("");
@@ -29,7 +30,7 @@ function Register() {
 
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:5000/register", {
+        const response = await fetch(getApiUrl("/register"), {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

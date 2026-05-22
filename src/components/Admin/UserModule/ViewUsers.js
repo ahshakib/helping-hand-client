@@ -1,12 +1,13 @@
 import { toast } from "react-toastify";
 import useAuth from "../../../hooks/useAuth";
+import { getApiUrl } from "../../../api";
 
 const ViewUsers = () => {
   const { users, setUsers } = useAuth();
 
   const handleDelete = async (id) => {
     try {
-      const response = await fetch(`http://localhost:5000/user/${id}`, {
+      const response = await fetch(getApiUrl(`/user/${id}`), {
         method: "DELETE",
       });
       const result = await response.json();
@@ -15,7 +16,7 @@ const ViewUsers = () => {
         toast.success(result.message);
         const fetchData = async () => {
           try {
-            const response = await fetch("http://localhost:5000/user");
+            const response = await fetch(getApiUrl("/user"));
             const result = await response.json();
 
             if (result.status) {

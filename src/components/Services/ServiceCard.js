@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
+import { getImageUrl } from '../../api';
 
 const ServiceCard = ({ service }) => {
     const { setService } = useAuth()
@@ -15,9 +16,7 @@ const ServiceCard = ({ service }) => {
     const imageUrl = service.image 
         ? (isUrl(service.image) 
             ? service.image 
-            : (service.image.startsWith('/uploads/') 
-                ? `http://localhost:5000${service.image}` 
-                : `http://localhost:5000/uploads/${service.image}`))
+            : getImageUrl(service.image))
         : null;
 
     return (

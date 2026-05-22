@@ -2,6 +2,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import useAuth from "../../../hooks/useAuth";
+import { getApiUrl } from "../../../api";
 
 function CreateUser() {
   const { setUsers } = useAuth();
@@ -25,7 +26,7 @@ function CreateUser() {
 
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:5000/register", {
+        const response = await fetch(getApiUrl("/register"), {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -39,7 +40,7 @@ function CreateUser() {
           toast.success(result.message);
           const fetchData = async () => {
             try {
-              const response = await fetch("http://localhost:5000/user");
+              const response = await fetch(getApiUrl("/user"));
               const result = await response.json();
 
               if (result.status) {

@@ -2,6 +2,7 @@ import React from 'react'
 import useAuth from '../../../hooks/useAuth'
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
+import { getApiUrl } from "../../../api";
 
 function CreateCategory() {
   const { setCategories } = useAuth();
@@ -24,7 +25,7 @@ function CreateCategory() {
 
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:5000/category", {
+        const response = await fetch(getApiUrl("/category"), {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -38,7 +39,7 @@ function CreateCategory() {
           toast.success(result.message);
           const fetchData = async () => {
             try {
-              const response = await fetch("http://localhost:5000/categories");
+              const response = await fetch(getApiUrl("/categories"));
               const result = await response.json();
 
               if (result.status) {

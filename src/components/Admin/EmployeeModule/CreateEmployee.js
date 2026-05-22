@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import useAuth from '../../../hooks/useAuth'
 import { toast } from 'react-toastify';
 import { useForm } from 'react-hook-form';
+import { getApiUrl } from "../../../api";
 
 function CreateEmployee() {
   const { setEmployees, services, users } = useAuth();
@@ -69,7 +70,7 @@ function CreateEmployee() {
 
     const fetchData = async () => {
         try {
-            const response = await fetch("http://localhost:5000/employee", {
+            const response = await fetch(getApiUrl("/employee"), {
                 method: "POST",
                 headers: {
                   "Content-Type": "application/json",
@@ -83,7 +84,7 @@ function CreateEmployee() {
                 toast.success(result.message);
                 const fetchData = async () => {
                     try {
-                        const response = await fetch("http://localhost:5000/employees");
+                        const response = await fetch(getApiUrl("/employees"));
                         const result = await response.json();
 
                         if (result.status) {

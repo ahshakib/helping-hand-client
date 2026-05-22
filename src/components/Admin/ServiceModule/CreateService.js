@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import useAuth from '../../../hooks/useAuth';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
+import { getApiUrl } from "../../../api";
 
 function CreateService() {
     const { setServices, categories } = useAuth();
@@ -21,7 +22,7 @@ function CreateService() {
     const generatingDetails = async (serviceName) => {
         try {
             setLoadingAI(true); // Start AI loading state
-            const response = await fetch("http://localhost:5000/service/generate-details", {
+            const response = await fetch(getApiUrl("/service/generate-details"), {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -61,7 +62,7 @@ function CreateService() {
 
         const fetchData = async () => {
             try {
-                const response = await fetch("http://localhost:5000/service", {
+                const response = await fetch(getApiUrl("/service"), {
                     method: "POST",
                     body: formData,
                 });
@@ -72,7 +73,7 @@ function CreateService() {
                     toast.success(result.message);
                     const fetchAllServices = async () => {
                         try {
-                            const response = await fetch("http://localhost:5000/services");
+                            const response = await fetch(getApiUrl("/services"));
                             const result = await response.json();
 
                             if (result.status) {

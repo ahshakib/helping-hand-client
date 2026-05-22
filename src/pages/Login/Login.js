@@ -4,6 +4,7 @@ import { FaEnvelope, FaLock } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Navbar from "../../components/Navbar";
 import useAuth from "../../hooks/useAuth";
+import { getApiUrl } from "../../api";
 
 function Login() {
   const { user, setUser } = useAuth();
@@ -34,7 +35,7 @@ function Login() {
 
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:5000/login", {
+        const response = await fetch(getApiUrl("/login"), {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
