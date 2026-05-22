@@ -2,7 +2,10 @@
 // In development: reads from .env (http://localhost:5000)
 // In production:  reads from .env.production (your deployed backend URL)
 
-const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
+const API_URL = (process.env.REACT_APP_API_URL || "http://localhost:5000").replace(
+  /\/+$/,
+  ""
+);
 
 /**
  * Returns the full API endpoint URL for a given path.
@@ -10,7 +13,8 @@ const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
  * @returns {string} Full URL like "http://localhost:5000/services"
  */
 export const getApiUrl = (path) => {
-  return `${API_URL}${path}`;
+  const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+  return `${API_URL}${normalizedPath}`;
 };
 
 /**
@@ -29,7 +33,7 @@ export const getImageUrl = (imagePath) => {
   } catch {
     // It's a relative path — prefix with API_URL
     const normalizedPath = imagePath.startsWith("/") ? imagePath : `/uploads/${imagePath}`;
-    return `${API_URL}${normalizedPath}`;
+    return getApiUrl(normalizedPath);
   }
 };
 
