@@ -70,13 +70,34 @@ function ViewEmployee() {
                   {index + 1}
                 </td>
                 <td className="text-sm text-gray-900 font-normal p-3 whitespace-nowrap capitalize border-r border-gray-300">
-                  {
-                    employee.image ? (
-                      <img src={employee.image} alt={employee.name} className='w-10 h-10 rounded-full' />
-                    ) : (
-                      <img src="https://via.placeholder.com/100" alt={employee.name} className='w-10 h-10 rounded-full' />
-                    )
-                  }
+                  {(() => {
+                    const isUrl = (path) => {
+                      try {
+                        const url = new URL(path);
+                        return url.protocol === "http:" || url.protocol === "https:";
+                      } catch (_) {
+                        return false;
+                      }
+                    };
+                    const imageUrl = employee.image 
+                      ? (isUrl(employee.image) 
+                          ? employee.image 
+                          : (employee.image.startsWith('/uploads/') 
+                              ? `http://localhost:5000${employee.image}` 
+                              : `http://localhost:5000/uploads/${employee.image}`))
+                      : "https://via.placeholder.com/100";
+                    return (
+                      <img 
+                        src={imageUrl} 
+                        alt={employee.name} 
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src = "https://via.placeholder.com/100";
+                        }}
+                        className='w-10 h-10 rounded-full object-cover' 
+                      />
+                    );
+                  })()}
                 </td>
                 <td className="text-sm text-gray-900 font-normal p-3 whitespace-nowrap capitalize border-r border-gray-300">
                   {employee.name}

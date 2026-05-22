@@ -22,9 +22,19 @@ const useCredential = () => {
                 try {
                     const response = await fetch(`http://localhost:5000/user/${id}`);
                     const result = await response.json();
-                    setUser(result.user);
+                    console.log('[useCredential] Fetch user response:', result);
+                    // Defensive check: ensure result.user exists before setting
+                    if (result.user) {
+                        setUser(result.user);
+                    } else {
+                        console.warn('[useCredential] User not found or result.user is undefined');
+                        localStorage.removeItem("userId");
+                        setUser({});
+                    }
                 } catch (error) {
-                    fetchData();
+                    console.error('[useCredential] Error fetching user:', error);
+                    localStorage.removeItem("userId");
+                    setUser({});
                 }
             };
             fetchData();
@@ -40,6 +50,9 @@ const useCredential = () => {
 
     // fetch users
     useEffect(() => {
+        // Defensive check: only fetch if user exists and has admin role
+        if (!user || user.role !== 'admin') return;
+        
         const fetchData = async () => {
             try {
                 const response = await fetch("http://localhost:5000/user");
@@ -54,7 +67,7 @@ const useCredential = () => {
                 setUsers([]);
             }
         };
-        user.role === 'admin' && fetchData();
+        fetchData();
     }, [user.role]);
 
     // fetch categories
@@ -135,6 +148,9 @@ const useCredential = () => {
 
     // fetch payments by email
     useEffect(() => {
+        // Defensive check: only fetch if user exists and has user role
+        if (!user || user.role !== 'user') return;
+        
         const fetchData = async () => {
             try {
                 const response = await fetch(`http://localhost:5000/payments/${user.email}`);
@@ -148,11 +164,14 @@ const useCredential = () => {
                 setBookings([]);
             }
         }
-        user.role === 'user' && fetchData()
+        fetchData();
     }, [user.role, user.email])
 
     // fetch all bookings
     useEffect(() => {
+        // Defensive check: only fetch if user exists and has admin role
+        if (!user || user.role !== 'admin') return;
+        
         const fetchData = async () => {
             try {
                 const response = await fetch("http://localhost:5000/bookings");
@@ -166,11 +185,14 @@ const useCredential = () => {
                 setAllBookings([]);
             }
         }
-        user.role === 'admin' && fetchData();
+        fetchData();
     }, [user.role])
 
     // fetch employee payments
     useEffect(() => {
+        // Defensive check: only fetch if user exists and has employee role
+        if (!user || user.role !== 'employee') return;
+        
         const fetchData = async () => {
             try {
                 const response = await fetch(`http://localhost:5000/employee-payments/${user.name}`);
@@ -184,7 +206,7 @@ const useCredential = () => {
                 setEmployeePayments([]);
             }
         }
-        user.role === 'employee' && fetchData();
+        fetchData();
     }, [user.role, user.name])
 
 

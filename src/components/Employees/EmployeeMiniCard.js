@@ -17,13 +17,34 @@ const EmployeeMiniCard = ({ employee }) => {
     setEmployee({});
     setSlot({})
   }
+  const isUrl = (path) => {
+    try {
+      const url = new URL(path);
+      return url.protocol === 'http:' || url.protocol === 'https:';
+    } catch (_) {
+      return false;
+    }
+  };
+
+  const imageUrl = employee.image 
+    ? (isUrl(employee.image) 
+        ? employee.image 
+        : (employee.image.startsWith('/uploads/') 
+            ? `http://localhost:5000${employee.image}` 
+            : `http://localhost:5000/uploads/${employee.image}`))
+    : "https://via.placeholder.com/150";
+
   return (
     <div className="bg-gray-50 border hover:border-cyan-400 rounded-md shadow-md p-2">
       <div className="items-center">
         <img
-          src={employee.image}
+          src={imageUrl}
           alt={employee.name}
-          className="w-16 mx-auto rounded-full"
+          onError={(e) => {
+            e.target.onerror = null;
+            e.target.src = "https://via.placeholder.com/150";
+          }}
+          className="w-16 h-16 mx-auto rounded-full object-cover"
         />
         <div className="mt-3">
           <h2 className="text-center font-bold">{employee.name}</h2>

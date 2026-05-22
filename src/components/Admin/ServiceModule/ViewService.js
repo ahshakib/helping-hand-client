@@ -78,8 +78,15 @@ function ViewService() {
                   {
                     service.image ? (
                       <img src={
-                        isUrl(service.image) ? service.image : `http://localhost:5000${service.image}`
-                      } alt={service.name} className="w-10 h-10 object-cover rounded" />
+                        isUrl(service.image) 
+                          ? service.image 
+                          : (service.image.startsWith('/uploads/') 
+                              ? `http://localhost:5000${service.image}` 
+                              : `http://localhost:5000/uploads/${service.image}`)
+                      } alt={service.name} onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = "https://via.placeholder.com/150";
+                      }} className="w-10 h-10 object-cover rounded" />
                     ) : ('No Image')
                   }
                 </td>

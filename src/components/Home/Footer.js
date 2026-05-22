@@ -17,16 +17,16 @@ function Footer() {
                         </p>
                         {/* Social Media */}
                         <div className="flex space-x-4 pt-4">
-                            <a href="#" className="text-gray-400 hover:text-accent-400 transition-colors text-xl">
+                            <a href="https://facebook.com" target="_blank" rel="noreferrer" className="text-gray-400 hover:text-accent-400 transition-colors text-xl">
                                 <FaFacebook />
                             </a>
-                            <a href="#" className="text-gray-400 hover:text-accent-400 transition-colors text-xl">
+                            <a href="https://twitter.com" target="_blank" rel="noreferrer" className="text-gray-400 hover:text-accent-400 transition-colors text-xl">
                                 <FaTwitter />
                             </a>
-                            <a href="#" className="text-gray-400 hover:text-accent-400 transition-colors text-xl">
+                            <a href="https://instagram.com" target="_blank" rel="noreferrer" className="text-gray-400 hover:text-accent-400 transition-colors text-xl">
                                 <FaInstagram />
                             </a>
-                            <a href="#" className="text-gray-400 hover:text-accent-400 transition-colors text-xl">
+                            <a href="https://linkedin.com" target="_blank" rel="noreferrer" className="text-gray-400 hover:text-accent-400 transition-colors text-xl">
                                 <FaLinkedin />
                             </a>
                         </div>
@@ -98,13 +98,13 @@ function Footer() {
                             © {new Date().getFullYear()} Helping Hand. All rights reserved.
                         </p>
                         <div className="flex space-x-6 text-sm">
-                            <a href="#" className="text-gray-400 hover:text-accent-400 transition-colors">
+                            <a href="/privacy-policy" className="text-gray-400 hover:text-accent-400 transition-colors">
                                 Privacy Policy
                             </a>
-                            <a href="#" className="text-gray-400 hover:text-accent-400 transition-colors">
+                            <a href="/terms-of-service" className="text-gray-400 hover:text-accent-400 transition-colors">
                                 Terms of Service
                             </a>
-                            <a href="#" className="text-gray-400 hover:text-accent-400 transition-colors">
+                            <a href="/cookie-policy" className="text-gray-400 hover:text-accent-400 transition-colors">
                                 Cookie Policy
                             </a>
                         </div>

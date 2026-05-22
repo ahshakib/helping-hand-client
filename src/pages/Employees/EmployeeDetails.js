@@ -39,6 +39,23 @@ const EmployeeDetails = () => {
     }
   }
   
+  const isUrl = (path) => {
+    try {
+      const url = new URL(path);
+      return url.protocol === "http:" || url.protocol === "https:";
+    } catch (_) {
+      return false;
+    }
+  };
+
+  const imageUrl = employee.image 
+    ? (isUrl(employee.image) 
+        ? employee.image 
+        : (employee.image.startsWith('/uploads/') 
+            ? `http://localhost:5000${employee.image}` 
+            : `http://localhost:5000/uploads/${employee.image}`))
+    : "https://via.placeholder.com/150";
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Navbar />
@@ -58,14 +75,18 @@ const EmployeeDetails = () => {
           </h1>
         </div>
       </div>
-
+ 
       {/* Employee Profile Section */}
       <div className="container mx-auto px-4 pb-8">
         <div className="bg-white rounded-2xl shadow-lg p-8 border border-gray-100 animate-slide-up">
           <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
             <img
-              src={employee.image}
+              src={imageUrl}
               alt={employee.name}
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = "https://via.placeholder.com/150";
+              }}
               className="w-32 h-32 rounded-full shadow-lg border-4 border-primary-100 object-cover"
             />
             <div className="text-center md:text-left flex-1">

@@ -6,13 +6,34 @@ const EmployeeCard = ({ employee }) => {
     const navigate = useNavigate();
     const {setEmployee} = useAuth()
     
+    const isUrl = (path) => {
+        try {
+            const url = new URL(path);
+            return url.protocol === 'http:' || url.protocol === 'https:';
+        } catch (_) {
+            return false;
+        }
+    };
+
+    const imageUrl = employee.image 
+        ? (isUrl(employee.image) 
+            ? employee.image 
+            : (employee.image.startsWith('/uploads/') 
+                ? `http://localhost:5000${employee.image}` 
+                : `http://localhost:5000/uploads/${employee.image}`))
+        : "https://via.placeholder.com/150";
+
     return (
         <div className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 p-6 border border-gray-100">
             {/* Header with Image and Basic Info */}
             <div className="flex items-start gap-4 mb-4">
                 <img
-                    src={employee.image}
+                    src={imageUrl}
                     alt={employee.name}
+                    onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = "https://via.placeholder.com/150";
+                    }}
                     className="w-24 h-24 rounded-full border-4 border-primary-100 shadow-md object-cover flex-shrink-0"
                 />
                 <div className="flex-1 min-w-0">

@@ -125,7 +125,7 @@ function CreateEmployee() {
               <span>Selected Services:</span>
               {
                 selectedServices.map((service) => 
-                  <p onClick={() => handleServiceRemove(service)} className='bg-pink-900 text-white text-xs py-2 px-3 rounded-full truncate cursor-pointer flex items-center'>{service}</p>)
+                  <p key={service} onClick={() => handleServiceRemove(service)} className='bg-pink-900 text-white text-xs py-2 px-3 rounded-full truncate cursor-pointer flex items-center'>{service}</p>)
               }
             </div>
         }

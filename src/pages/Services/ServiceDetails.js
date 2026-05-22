@@ -69,9 +69,15 @@ const ServiceDetails = () => {
                   src={
                     isUrl(service.image)
                       ? service.image
-                      : `http://localhost:5000${service.image}`
+                      : (service.image.startsWith('/uploads/') 
+                          ? `http://localhost:5000${service.image}` 
+                          : `http://localhost:5000/uploads/${service.image}`)
                   }
                   alt={service.name}
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = "https://via.placeholder.com/150";
+                  }}
                   className="w-full h-80 object-cover rounded-xl shadow-md"
                 />
               </div>
